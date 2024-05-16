@@ -17,7 +17,7 @@ def main():
     for i in range(10):
 
         test = X.iloc[[i]]
-        fact = y.iloc[[i]]["target"][0]
+        fact = y.iloc[[i]]["target"].values[0]
 
         print(f"Тестируем запись с индексом {i}. Фактическая цель: {fact}")
 
@@ -30,6 +30,7 @@ def main():
             print(f"Вы НЕ больны с вероятностью {no_seak_score}")
         else:
             print(f"Вы больны с вероятностью {seak_score}")
+        print("")
 
 
 if __name__ == "__main__":
