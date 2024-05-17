@@ -51,3 +51,42 @@ def save_model(model):
 
     PATH_MODEL.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(model, PATH_MODEL)
+
+
+def desc_dataset():
+
+    bool_features = [
+        ("sex", ["female", "male"]),
+        ("fasting blood sugar", ["<= 120 mg/dl", "120 mg/dl"]),
+        ("exercise angina", ["no", "yes"]),
+    ]
+
+    cat_features = [
+        (
+            "chest pain type",
+            ["typical angina", "atypical angina", "non-anginal pain", "asymptomatic"],
+        ),
+        (
+            "resting ecg",
+            [
+                "normal",
+                "having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV)",
+                "showing probable or definite left ventricular hypertrophy by Estes criteria",
+            ],
+        ),
+        ("ST slope", ["upsloping", "flat", "downsloping"]),
+    ]
+
+    num_features = [
+        ("age", "in years"),
+        ("resting bp s", "in mm Hg"),
+        ("cholesterol", "in mg/dl"),
+        ("max heart rate", "71–202"),
+        ("oldpeak", "depression"),
+    ]
+
+    return {
+        "bool_futures": bool_features,
+        "cat_futures": cat_features,
+        "num_futures": num_features,
+    }
