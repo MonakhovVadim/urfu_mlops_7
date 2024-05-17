@@ -1,24 +1,41 @@
 from pathlib import Path
+from enum import Enum
 
 import joblib
 import pandas as pd
 
-PATH_DATASETS = Path.cwd() / "datasets"
-NAME_DATASET = "heart_statlog"
-SUF_PREPROCESSING = "_preprocessing"
 
+NAME_DATASET = "heart_statlog"
+DATA_TYPE = Enum("DATA_TYPE", ["BASE", "TRAIN", "TEST"])
+PATH_DATASETS = Path.cwd() / "datasets"
+PATH_TRAIN = PATH_DATASETS / "train"
+PATH_TEST = PATH_DATASETS / "test"
 PATH_MODEL = Path.cwd() / "data" / "model.pkl"
 
 
-def save_dataset(data, name):
-    way = PATH_DATASETS / name
-    way.parent.mkdir(parents=True, exist_ok=True)
-    data.to_csv(way.with_suffix(".csv"), index=False)
+def path_by_type(data_type):
+
+    if data_type == DATA_TYPE.BASE:
+        path = PATH_DATASETS
+    elif data_type == DATA_TYPE.TRAIN:
+        path = PATH_TRAIN
+    elif data_type == DATA_TYPE.TEST:
+        path = PATH_TEST
+
+    return path
 
 
-def load_dataset(name):
-    way = PATH_DATASETS / name
-    data = pd.read_csv(way.with_suffix(".csv"))
+def save_dataset(data, data_type, name=NAME_DATASET):
+
+    path = path_by_type(data_type) / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data.to_csv(path.with_suffix(".csv"), index=False)
+
+
+def load_dataset(data_type, name=NAME_DATASET):
+
+    path = path_by_type(data_type) / name
+    data = pd.read_csv(path.with_suffix(".csv"))
     return data
 
 
@@ -33,5 +50,4 @@ def features_target(data):
 def save_model(model):
 
     PATH_MODEL.parent.mkdir(parents=True, exist_ok=True)
-    # Сохраняем модель
     joblib.dump(model, PATH_MODEL)

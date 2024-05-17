@@ -1,18 +1,16 @@
 from sklearn.ensemble import RandomForestClassifier
-import joblib
 
 from common_functions import (
     features_target,
     load_dataset,
     save_model,
-    NAME_DATASET,
-    SUF_PREPROCESSING,
+    DATA_TYPE,
 )
 
 
 def main():
     # Загружаем датасет
-    data = load_dataset(NAME_DATASET + SUF_PREPROCESSING)
+    data = load_dataset(DATA_TYPE.TRAIN)
 
     # Получаем имена предикторов и целевого признака
     X, y = features_target(data)

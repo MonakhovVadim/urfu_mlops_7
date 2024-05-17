@@ -4,8 +4,7 @@ import joblib
 from common_functions import (
     load_dataset,
     features_target,
-    NAME_DATASET,
-    SUF_PREPROCESSING,
+    DATA_TYPE,
     PATH_MODEL,
 )
 
@@ -13,7 +12,7 @@ from common_functions import (
 def main():
 
     model = joblib.load(PATH_MODEL)
-    data = load_dataset(NAME_DATASET + SUF_PREPROCESSING)
+    data = load_dataset(DATA_TYPE.TEST)
     X, y = features_target(data)
 
     # Оценка модели
