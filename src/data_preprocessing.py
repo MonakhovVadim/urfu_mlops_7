@@ -14,8 +14,8 @@ from common_functions import (
 
 def main():
 
-    # Загружаем датасет
-    data = load_dataset(DATA_TYPE.BASE)
+    # Загружаем базовый датасет
+    data = load_dataset(DATA_TYPE.BASE, "heart_statlog")
     X, y = features_target(data)
     print(X.describe())
 
@@ -37,7 +37,6 @@ def main():
 
     # Сохраняем пайплайн для обработки "сырых" данных, которые будут вводить пользователи
     save_pipeline(pipeline)
-    # print(pipeline.feature_names_in_)
 
 
 if __name__ == "__main__":

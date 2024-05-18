@@ -1,17 +1,16 @@
 from sklearn.metrics import accuracy_score
-import joblib
 
 from common_functions import (
     load_dataset,
+    load_model,
     features_target,
     DATA_TYPE,
-    PATH_MODEL,
 )
 
 
 def main():
 
-    model = joblib.load(PATH_MODEL)
+    model = load_model()
     data = load_dataset(DATA_TYPE.TEST)
     X, y = features_target(data)
 
