@@ -6,11 +6,12 @@ import pandas as pd
 
 
 NAME_DATASET = "heart_statlog"
-DATA_TYPE = Enum("DATA_TYPE", ["BASE", "TRAIN", "TEST"])
+DATA_TYPE = Enum("DATA_TYPE", ["BASE", "TRAIN", "TEST", "PIPELINE"])
 PATH_DATASETS = Path.cwd() / "datasets"
 PATH_TRAIN = PATH_DATASETS / "train"
 PATH_TEST = PATH_DATASETS / "test"
 PATH_MODEL = Path.cwd() / "data" / "model.pkl"
+PATH_PIPELINE = Path.cwd() / "ppl" / "ppl.pkl"
 
 
 def path_by_type(data_type):
@@ -21,6 +22,8 @@ def path_by_type(data_type):
         path = PATH_TRAIN
     elif data_type == DATA_TYPE.TEST:
         path = PATH_TEST
+    elif data_type == DATA_TYPE.PIPELINE:
+        path = PATH_PIPELINE
 
     return path
 
@@ -29,14 +32,51 @@ def save_dataset(data, data_type, name=NAME_DATASET):
 
     path = path_by_type(data_type) / name
     path.parent.mkdir(parents=True, exist_ok=True)
-    data.to_csv(path.with_suffix(".csv"), index=False)
+    try:
+        data.to_csv(path.with_suffix(".csv"), index=False)
+    except PermissionError:
+        print(
+            "Ошибка доступа! Убедитесь, что у вас есть права на запись в директорию {path}."
+        )
+    except Exception as e:
+        print(f"Ошибка при сохранении датасета {NAME_DATASET}!\n", e)
 
 
 def load_dataset(data_type, name=NAME_DATASET):
 
     path = path_by_type(data_type) / name
-    data = pd.read_csv(path.with_suffix(".csv"))
-    return data
+    try:
+        data = pd.read_csv(path.with_suffix(".csv"))
+        return data
+    except Exception as e:
+        print(f"Ошибка при загрузке датасета {NAME_DATASET}!\n", e)
+        return None
+
+
+def save_pipeline(pipeline):
+
+    print(PATH_PIPELINE)
+    print(PATH_PIPELINE.parent)
+
+    try:
+        PATH_PIPELINE.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(pipeline, PATH_PIPELINE)
+        print("Пайплайн успешно сохранен.")
+    except PermissionError:
+        print(
+            f"Ошибка доступа. Убедитесь, что у вас есть права на запись в директорию {PATH_PIPELINE}."
+        )
+    except Exception as e:
+        print(f"Произошла неизвестная ошибка: {e}")
+
+
+def load_pipeline():
+
+    try:
+        return joblib.load(PATH_PIPELINE)
+    except Exception as e:
+        print(f"Ошибка при загрузке пайплайна!\n", e)
+        return None
 
 
 def features_target(data):
@@ -50,7 +90,24 @@ def features_target(data):
 def save_model(model):
 
     PATH_MODEL.parent.mkdir(parents=True, exist_ok=True)
-    joblib.dump(model, PATH_MODEL)
+    try:
+        joblib.dump(model, PATH_MODEL)
+        print("Модель успешно сохранена.")
+    except PermissionError:
+        print(
+            f"Ошибка доступа. Убедитесь, что у вас есть права на запись в директорию {PATH_MODEL}."
+        )
+    except Exception as e:
+        print(f"Произошла неизвестная ошибка: {e}")
+
+
+def load_model():
+
+    try:
+        return joblib.load(PATH_MODEL)
+    except Exception as e:
+        print(f"Ошибка при загрузке модели!\n", e)
+        return None
 
 
 def desc_dataset():
@@ -78,15 +135,15 @@ def desc_dataset():
     ]
 
     num_features = [
-        ("age", "in years"),
-        ("resting bp s", "in mm Hg"),
-        ("cholesterol", "in mg/dl"),
-        ("max heart rate", "71–202"),
-        ("oldpeak", "depression"),
+        ("age", "in years", 10, 110),
+        ("resting bp s", "in mm Hg", 40, 200),
+        ("cholesterol", "in mg/dl", 0, 700),
+        ("max heart rate", "71–202", 71, 202),
+        ("oldpeak", "depression", -5, 7),
     ]
 
     return {
-        "bool_futures": bool_features,
-        "cat_futures": cat_features,
-        "num_futures": num_features,
+        "bool_features": bool_features,
+        "cat_features": cat_features,
+        "num_features": num_features,
     }

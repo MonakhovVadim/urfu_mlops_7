@@ -3,7 +3,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-from common_functions import load_dataset, save_dataset, features_target, DATA_TYPE
+from common_functions import (
+    load_dataset,
+    save_dataset,
+    save_pipeline,
+    features_target,
+    DATA_TYPE,
+)
 
 
 def main():
@@ -11,6 +17,7 @@ def main():
     # Загружаем датасет
     data = load_dataset(DATA_TYPE.BASE)
     X, y = features_target(data)
+    print(X.describe())
 
     # Создаем пайплайн с предобработкой
     pipeline = Pipeline([("scaler", StandardScaler())])
@@ -27,6 +34,10 @@ def main():
 
     # Сохраняем датасет для тестирования
     save_dataset(data_test, DATA_TYPE.TEST)
+
+    # Сохраняем пайплайн для обработки "сырых" данных, которые будут вводить пользователи
+    save_pipeline(pipeline)
+    # print(pipeline.feature_names_in_)
 
 
 if __name__ == "__main__":
