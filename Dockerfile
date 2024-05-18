@@ -45,4 +45,4 @@ COPY . .
 EXPOSE 8501
 
 # Run the application.
-CMD streamlit run src/frontend.py
+CMD streamlit run src/app.py

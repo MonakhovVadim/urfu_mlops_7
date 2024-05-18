@@ -3,12 +3,18 @@ pipeline {
     stages {
         stage('Pull') {
             steps {
+                sh "rm -rf *" // clean-up
                 git branch: 'develop', url: 'https://github.com/MonakhovVadim/urfu_mlops_7'
             }
         }
         stage('Prepare') {
             steps {
                 sh "python3 -m venv venv && . venv/bin/activate && pip install -r cicd/requirements.txt && dvc pull"
+            }
+        }
+        stage('Test') {
+            steps {
+                sh "venv/bin/pytest"
             }
         }
         stage('Build') {
