@@ -1,15 +1,9 @@
 import streamlit as st
-import joblib
 import pandas as pd
 from common_functions import (
+    desc_dataset,
     load_model,
     load_pipeline,
-)
-
-
-from common_functions import (
-    desc_dataset,
-    PATH_MODEL,
 )
 
 
