@@ -1,22 +1,20 @@
-import joblib
-
 from common_functions import (
     load_dataset,
+    load_model,
     features_target,
     DATA_TYPE,
-    PATH_MODEL,
 )
 
 
 def main():
-    model = joblib.load(PATH_MODEL)
+    model = load_model()
     data = load_dataset(DATA_TYPE.TEST)
     X, y = features_target(data)
 
     for i in range(10):
 
         test = X.iloc[[i]]
-        fact = y.iloc[[i]]["target"].values[0]
+        fact = y[i]
 
         print(f"Тестируем запись с индексом {i}. Фактическая цель: {fact}")
 
