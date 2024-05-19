@@ -3,6 +3,7 @@ import joblib
 
 from common_functions import (
     load_dataset,
+    load_model,
     features_target,
     DATA_TYPE,
     PATH_MODEL,
@@ -10,7 +11,7 @@ from common_functions import (
 
 
 def test_model():
-    model = joblib.load(PATH_MODEL)
+    model = load_model()
     data = load_dataset(DATA_TYPE.TEST)
     X, y = features_target(data)
 
