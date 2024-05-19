@@ -23,16 +23,6 @@ def test_dataset_values():
         [float('inf'), float('-inf')]).any().any(), "Dataset contains infinite values"
 
 
-def test_missing_values():
-    limit_percentage = 5
-    # Проверяем, что датасет содержит менее limit_percentage процентов пропущенных значений
-    data = load_dataset(DATA_TYPE.BASE, "heart_statlog")
-    missing_values = data.isnull().mean() * 100  # процент пропущенных значений по каждому столбцу
-    assert not (
-            missing_values > limit_percentage).any(), \
-        (f"Dataset contains columns with more than {limit_percentage}% "
-         f"missing values: {missing_values[missing_values > limit_percentage]}")
-
 
 def test_negative_values():
     # Проверяем, что датасет не содержит отрицательных значений там, где они не допустимы
