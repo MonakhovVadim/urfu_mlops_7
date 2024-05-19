@@ -16,7 +16,7 @@ def main():
     X, y = features_target(data)
 
     # Обучаем модель
-    model = RandomForestClassifier()
+    model = RandomForestClassifier(random_state=42)
     model.fit(X, y)
 
     # Сохраняем модель
