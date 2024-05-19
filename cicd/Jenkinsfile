@@ -1,15 +1,31 @@
 pipeline {
     agent any
     stages {
-        stage('Pull') {
+        stage('Pull code') {
             steps {
                 sh "rm -rf *" // clean-up
                 git branch: 'develop', url: 'https://github.com/MonakhovVadim/urfu_mlops_7'
             }
         }
-        stage('Prepare') {
+        stage('Install dependencies') {
             steps {
-                sh "python3 -m venv venv && . venv/bin/activate && pip install -r cicd/requirements.txt && dvc pull"
+                sh "python3 -m venv venv" // create venv
+                sh "venv/bin/pip install -r cicd/requirements.txt" // install dependencies
+            }
+        }
+        stage('Pull data') {
+            steps {
+                sh "venv/bin/dvc pull"
+            }
+        }
+        stage('Data preprocessing') {
+            steps {
+                sh "venv/bin/python src/data_preprocessing.py"
+            }
+        }
+        stage('Model preparation') {
+            steps {
+                sh "venv/bin/python src/model_preparation.py"
             }
         }
         stage('Test') {

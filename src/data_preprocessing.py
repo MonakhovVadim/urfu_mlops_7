@@ -24,7 +24,7 @@ def main():
 
     # Делаем преобразования
     data = pd.DataFrame(pipeline.fit_transform(X), columns=X.columns)
-    data[y.columns] = y
+    data[y.name] = y
 
     # Делим на тренировочные и тестовые данные
     data_train, data_test = train_test_split(data, test_size=0.2, random_state=42)

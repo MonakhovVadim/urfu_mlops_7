@@ -83,7 +83,7 @@ def features_target(data):
     features = data.columns.to_list()
     features.remove("target")
 
-    return data[features], data["target"].to_numpy()
+    return data[features], data["target"]
 
 
 # функия сохраняет модель в файл
