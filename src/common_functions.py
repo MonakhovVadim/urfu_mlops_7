@@ -73,7 +73,7 @@ def load_pipeline():
     try:
         return joblib.load(PATH_MODEL / "pipeline.pkl")
     except Exception as e:
-        print(f"Ошибка при загрузке пайплайна!\n", e)
+        print("Ошибка при загрузке пайплайна!\n", e)
         return None
 
 
@@ -107,7 +107,7 @@ def load_model():
     try:
         return joblib.load(PATH_MODEL / "model.pkl")
     except Exception as e:
-        print(f"Ошибка при загрузке модели!\n", e)
+        print("Ошибка при загрузке модели!\n", e)
         return None
 
 
