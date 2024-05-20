@@ -1,6 +1,6 @@
 import pandas as pd
 
-from common_functions import load_dataset, DATA_TYPE
+from ..src.common_functions import load_dataset, DATA_TYPE
 
 
 def test_dataset_structure():
