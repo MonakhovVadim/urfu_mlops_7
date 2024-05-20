@@ -45,13 +45,8 @@
   git clone https://github.com/MonakhovVadim/urfu_mlops_7.git
   cd urfu_mlops_7/
 ```  
-2. Установка зависимостей:  
-  
-```bash
-  pip install -r requirements.txt
-```
-    
-3. Сборка образа и запуск контейнера:  
+
+2. Сборка образа и запуск контейнера:  
   
 ```bash
   docker compose up -d --build
